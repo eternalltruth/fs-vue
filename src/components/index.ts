@@ -4,12 +4,15 @@ import type { Component } from 'vue'
 
 const getFileName = (fileName: string) => fileName.split('/')[1]
 
-const requireComponents: any = import.meta.globEager('../components/*/*.vue')
+const requireComponents: any = import.meta.glob('../components/*/*.vue', {
+  eager: true,
+  import: 'default',
+})
 
 const components: { [propName: string]: Component } = {}
 
 for (const key in requireComponents) {
-        components[getFileName(key)] = requireComponents[key].default
+  components[getFileName(key)] = requireComponents[key]
 }
 
 export default components
